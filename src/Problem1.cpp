@@ -39,18 +39,32 @@ question .
 Difficulty : Easy
 */
 
+
 #include <stdlib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+	struct node{
+		int data;
+		struct node *left;
+		struct node *right;
+	};
+	unsigned int inorder_sum(struct node* root) {
+		static unsigned int sum = 0;
+		if (root != NULL) {
+			inorder_sum(root->left);
+			if (root->data > 0)
+				sum += root->data;
+			inorder_sum(root->right);
+		}
+		return sum;
+	}
+	int get_missing_value(struct node *root, int n){
+		if (root == NULL || n == 0)
+			return -1;
+		else {
+			unsigned int sum = (n * (n + 1)) / 2;
+			return sum - inorder_sum(root);
+		}
+	}
 
-struct node{
-	int data;
-	struct node *left;
-	struct node *right;
-};
-
-
-int get_missing_value(struct node *root,int n){
-    return -1;
-}

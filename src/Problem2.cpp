@@ -57,9 +57,9 @@ Return -1 for NULL inputs
 
 Difficulty : Medium +
 */
+
 #include <stdlib.h>
 #include <stdio.h>
-
 struct node_dll{
 	int data;
 	struct node_dll *next;
@@ -70,7 +70,28 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+int inorder_cmp(struct node_dll* head, struct node *root) {
+	static struct node_dll* _head = head;
+	static int cll = 1, cbst = 0;
+	if (root != NULL)
+		cbst++;
+	if (root != NULL && _head != NULL) {
+		inorder_cmp(_head, root->left);
+		if (root->data != _head->data)
+			return 0;
 
+		if (_head->next != NULL)
+			cll++;
+		inorder_cmp(_head->next, root->right);
+	}
+	if (cll == cbst)
+		return 1;
+	else
+		return 0;
+}
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	if (head == NULL || root == NULL)
+		return -1;
+	else
+		return inorder_cmp(head, root);
 }
